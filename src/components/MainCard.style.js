@@ -20,6 +20,27 @@ export const MainWrapper  = styled.div`
     padding: 3.5rem 2rem 2rem;
     width: 465px;
   }
+
+  .top-img{
+    position: absolute; 
+    right: 0;
+    top: -1rem;
+  }
+
+  @media (max-width:769px){
+    .title{
+      font-size: 26px;
+      margin-bottom:8px;
+    }
+    .top-img{
+      max-height: 6rem;
+    }
+    .content{
+      padding: 3rem 1.5rem 1.5rem;
+      width: fit-content;
+      min-width: 90vw;
+    }
+  }
 `
 
 export const ButtonWrapper = styled.div`

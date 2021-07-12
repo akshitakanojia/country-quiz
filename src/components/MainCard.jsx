@@ -1,17 +1,17 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { QuestionCard } from './QuestionCard'
 import { MainWrapper, Button, ButtonWrapper } from './MainCard.style'
 import advImg from '../assets/undraw_adventure_4hum 1.svg'
 import ResultCard from './ResultCard'
 
-const MainCard = ({ countryData }) => {
+const MainCard = ({ countryData, error }) => {
   const [questionData, setQuestionData] = useState(null);
   const [correctAnsCount, setCorrectAnsCount] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
   const [gameOver, setGameOver] = useState(false);
   const [displayNext, setDisplayNext] = useState(false);
-  const [showResult, setShowResult] = useState(false); 
+  const [showResult, setShowResult] = useState(false);
 
   const randomInteger = (n) => Math.floor(Math.random() * n)
 
@@ -71,7 +71,7 @@ const MainCard = ({ countryData }) => {
       }
       else {
         setGameOver(true)
-      } 
+      }
     }
   }
 
@@ -82,7 +82,7 @@ const MainCard = ({ countryData }) => {
     setQuestionData(null)
     nextQuestion()
   }
- 
+
   useEffect(() => {
     if (countryData?.length > 4) {
       setQuestionData(getQuestion());
@@ -98,35 +98,33 @@ const MainCard = ({ countryData }) => {
   return (
     <MainWrapper>
       <p className="title">Country Quiz</p>
-      {!showResult&&<img style={{ position: "absolute", right: "0", top: "-1rem" }} src={advImg} alt='adventure' />}
+      {!showResult && <img className="top-img" src={advImg} alt='adventure' />}
       <div className="content">
         {
-          showResult ? <ResultCard correctAnsCount={correctAnsCount} tryAgain={tryAgain} />
-            : questionData ?
-              <>
-                <QuestionCard
-                  question={questionData.statement}
-                  options={questionData.options}
-                  flag={questionData.flag}
-                  answer={questionData.answer}
-                  setUserAnswer={setUserAnswer}
-                  userAnswer={userAnswer}
-                />
-                <ButtonWrapper>
-                {
-                  gameOver ?
-                    
-                      <Button onClick={() => setShowResult(true)}>See Results</Button>
-                    
-                    : displayNext ?
-                    
-                      <Button onClick={nextQuestion}>Next</Button>
-                    :
-                      <Button dummy>Dummy</Button>
-                }
-                </ButtonWrapper>
-              </>
-              : <div>loading...</div>
+          error ? <>Quiz cannot be loaded, please try again in a while &gt;_&lt;</> :
+            showResult ? <ResultCard correctAnsCount={correctAnsCount} tryAgain={tryAgain} />
+              : questionData ?
+                <>
+                  <QuestionCard
+                    question={questionData.statement}
+                    options={questionData.options}
+                    flag={questionData.flag}
+                    answer={questionData.answer}
+                    setUserAnswer={setUserAnswer}
+                    userAnswer={userAnswer}
+                  />
+                  <ButtonWrapper>
+                    {
+                      gameOver ?
+                        <Button onClick={() => setShowResult(true)}>See Results</Button>
+                        : displayNext ?
+                          <Button onClick={nextQuestion}>Next</Button>
+                          :
+                          <Button dummy>Dummy</Button>
+                    }
+                  </ButtonWrapper>
+                </>
+                : <div>loading...</div>
         }
       </div>
     </MainWrapper>

@@ -6,13 +6,17 @@ import { GlobalStyle } from './App.style';
 
 function App() {
   const [countryData, setCountryData] = useState([]);
+  const [error, setError] = useState(false);
+
 
   const getCountryData = () => {
     axios.get("https://restcountries.eu/rest/v2/all/?fields=name;flag;capital")
       .then((response) => {
+        setError(false)
         setCountryData(response.data);
       })
       .catch((error) => {
+        setError(true)
         console.log(error);
       })
   }
@@ -24,7 +28,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <MainCard countryData={countryData} />
+      <MainCard countryData={countryData} error={error} />
     </>
   );
 }

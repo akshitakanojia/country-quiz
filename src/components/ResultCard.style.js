@@ -37,4 +37,16 @@ export const ResultWrapper = styled.div`
     cursor: pointer;
   }
 
+  @media (max-width:769px){
+    .result-text{
+      margin-top: 50px;
+      font-size: 40px;
+    }
+
+    button{
+      padding: 15px 40px;
+      font-size: 15px;
+    }
+  }
+
 `

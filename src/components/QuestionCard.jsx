@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Question, Option } from './QuestionCard.style'
+import { QuestionWrapper, Question, Option } from './QuestionCard.style'
 
 const label = ['A', 'B', 'C', 'D']
 
@@ -15,13 +15,11 @@ export const QuestionCard = ({
 
   useEffect(() => {
     setDisableOptions(false)
-  }, [question])
-
+  }, [question, options, flag])
 
   return (
-    <div>
-      {flag && <img src={flag} alt='flag'
-        style={{ height: "54px", boxShadow: "0px 4px 24px 0px #0000001A", marginBottom: "12px", borderRadius: "4px" }} />}
+    <QuestionWrapper>
+      {flag && <img src={flag} alt='flag' className='flag-img' />}
       <Question>{question}</Question>
       {
         options.map((option, i) => {
@@ -33,14 +31,14 @@ export const QuestionCard = ({
             incorrect={incorrect}
             onClick={() => { !disableOptions && setUserAnswer(option); setDisableOptions(true) }}>
             <div>
-              <span>{label[i]}</span>
+              <span className="tag">{label[i]}</span>
             </div>
-            <div style={{flexGrow: 1}}>{option}</div>
-            {correct && <div><span style={{verticalAlign: "middle"}} className="material-icons">
+            <div style={{ flexGrow: 1 }}>{option}</div>
+            {correct && <div><span style={{ verticalAlign: "middle" }} className="material-icons">
               check_circle_outline
             </span>
             </div>}
-            {incorrect && <div><span style={{verticalAlign: "middle"}}  class="material-icons">
+            {incorrect && <div><span style={{ verticalAlign: "middle" }} className="material-icons">
               highlight_off
             </span>
             </div>}
@@ -48,7 +46,6 @@ export const QuestionCard = ({
         }
         )
       }
-    </div>
+    </QuestionWrapper>
   )
 }
-

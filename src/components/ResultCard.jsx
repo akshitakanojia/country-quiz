@@ -9,7 +9,7 @@ const ResultCard = ({correctAnsCount, tryAgain}) => {
         <img src={resultImg} alt="result" />
       </div>
       <p className="result-text">Results</p>
-      <p className="result">You got <span className="score">{correctAnsCount}</span> correct answers</p>
+      <p className="result">You got <span className="score">{correctAnsCount}</span> correct {`${correctAnsCount===1?"answer":"answers"}`}</p>
       <button onClick={tryAgain}>Try again</button>
     </ResultWrapper>
   )
