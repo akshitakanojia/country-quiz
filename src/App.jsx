@@ -5,30 +5,41 @@ import MainCard from './components/MainCard';
 import { GlobalStyle } from './App.style';
 
 function App() {
-  const [countryData, setCountryData] = useState([]);
+  const [countryCapitalData, setCountryCapitalData] = useState([]);
+  const [countryFlagData, setCountryFlagData] = useState([]);
   const [error, setError] = useState(false);
 
 
-  const getCountryData = () => {
-    axios.get("https://restcountries.eu/rest/v2/all/?fields=name;flag;capital")
+  const getCountryCapital = () => {
+    axios.get("https://countriesnow.space/api/v0.1/countries/capital")
       .then((response) => {
         setError(false)
-        setCountryData(response.data);
+        setCountryCapitalData(response.data.data);
       })
       .catch((error) => {
         setError(true)
-        console.log(error);
+      })
+  }
+  const getCountryFlag = () => {
+    axios.get("https://countriesnow.space/api/v0.1/countries/flag/images")
+      .then((response) => {
+        setError(false)
+        setCountryFlagData(response.data.data);
+      })
+      .catch((error) => {
+        setError(true)
       })
   }
 
   useEffect(() => {
-    getCountryData()
+    getCountryCapital();
+    getCountryFlag();
   }, [])
 
   return (
     <>
       <GlobalStyle />
-      <MainCard countryData={countryData} error={error} />
+      <MainCard countryCapitalData={countryCapitalData} countryFlagData={countryFlagData} error={error} />
     </>
   );
 }
