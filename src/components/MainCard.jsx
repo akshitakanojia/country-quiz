@@ -5,7 +5,7 @@ import { MainWrapper, Button, ButtonWrapper } from './MainCard.style'
 import advImg from '../assets/undraw_adventure_4hum 1.svg'
 import ResultCard from './ResultCard'
 
-const MainCard = ({ countryData, error }) => {
+const MainCard = ({ countryFlagData, countryCapitalData, error }) => {
   const [questionData, setQuestionData] = useState(null);
   const [correctAnsCount, setCorrectAnsCount] = useState(0);
   const [userAnswer, setUserAnswer] = useState(null);
@@ -15,10 +15,10 @@ const MainCard = ({ countryData, error }) => {
 
   const randomInteger = (n) => Math.floor(Math.random() * n)
 
-  const getNRandomIndex = (n) => {
+  const getNRandomIndex = (n,maxIndex) => {
     let result = [];
-    while (n) {
-      let i = randomInteger(countryData?.length)
+    while (n && maxIndex) {
+      let i = randomInteger(maxIndex)
       if (!result.includes(i)) {
         result.push(i)
         n--;
@@ -28,14 +28,12 @@ const MainCard = ({ countryData, error }) => {
   }
 
   const getQuestion = () => {
-    if (countryData?.length > 4) {
-
-      let indexes = getNRandomIndex(4);
-      let questionData = countryData[indexes[randomInteger(4)]]
-      let options = indexes.map((i) => countryData[i].name);
-
-      // true: flag question; false: capital question
-      if (Math.random() < 0.5) {
+    // true: countryFlagData, countryCapitalData question; false: capital question
+    if (Math.random() < 0.5) {
+      if (countryFlagData?.length > 4) {
+        let indexes = getNRandomIndex(4,countryFlagData?.length);
+        let questionData = countryFlagData[indexes[randomInteger(4)]]
+        let options = indexes.map((i) => countryFlagData[i].name);
         let resObj = {
           statement: "Which country does this flag belong to?",
           flag: questionData.flag,
@@ -44,7 +42,11 @@ const MainCard = ({ countryData, error }) => {
         }
         return resObj
       }
-      else {
+    } else {
+      if (countryCapitalData?.length > 4) {
+        let indexes = getNRandomIndex(4,countryCapitalData?.length);
+        let questionData = countryCapitalData[indexes[randomInteger(4)]]
+        let options = indexes.map((i) => countryCapitalData[i].name);
         let resObj = {
           statement: `${questionData.capital} is the capital of`,
           flag: null,
@@ -84,11 +86,11 @@ const MainCard = ({ countryData, error }) => {
   }
 
   useEffect(() => {
-    if (countryData?.length > 4) {
+    if (countryFlagData?.length > 4 && countryCapitalData?.length > 4) {
       setQuestionData(getQuestion());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countryData])
+  }, [countryFlagData, countryCapitalData])
 
   useEffect(() => {
     checkAns()
