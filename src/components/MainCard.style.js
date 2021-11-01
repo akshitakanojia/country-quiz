@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MainWrapper  = styled.div`
+export const MainWrapper = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -24,7 +24,7 @@ export const MainWrapper  = styled.div`
   .top-img{
     position: absolute; 
     right: 0;
-    top: -1rem;
+    top: 20px;
   }
 
   @media (max-width:769px){
@@ -45,11 +45,12 @@ export const MainWrapper  = styled.div`
 
 export const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 `
 
 export const Button = styled.button`
-  background :${({dummy})=>dummy?"#fff":"#F9A826"} ;
+  background :${({ dummy }) => dummy ? "#fff" : "#F9A826"} ;
   border-radius: 12px;
   padding: 15px 35px;
   border: none;
@@ -58,4 +59,10 @@ export const Button = styled.button`
   font-weight: 700;
   align-self: right;
   cursor: pointer;
+`
+
+export const QuestionCount = styled.p`
+  color: #6066D0;
+  font-weight: 500;
+  font-size: 18px;
 `

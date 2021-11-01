@@ -3,43 +3,22 @@ import axios from 'axios';
 
 import MainCard from './components/MainCard';
 import { GlobalStyle } from './App.style';
+import { Redirect, Route, Switch } from 'react-router';
+import Home from './pages/Home/Home';
+import ProtectedRoute from './components/ProtectedRoute';
+import Quiz from './pages/Quiz/Quiz';
 
 function App() {
-  const [countryCapitalData, setCountryCapitalData] = useState([]);
-  const [countryFlagData, setCountryFlagData] = useState([]);
-  const [error, setError] = useState(false);
-
-
-  const getCountryCapital = () => {
-    axios.get("https://countriesnow.space/api/v0.1/countries/capital")
-      .then((response) => {
-        setError(false)
-        setCountryCapitalData(response.data.data);
-      })
-      .catch((error) => {
-        setError(true)
-      })
-  }
-  const getCountryFlag = () => {
-    axios.get("https://countriesnow.space/api/v0.1/countries/flag/images")
-      .then((response) => {
-        setError(false)
-        setCountryFlagData(response.data.data);
-      })
-      .catch((error) => {
-        setError(true)
-      })
-  }
-
-  useEffect(() => {
-    getCountryCapital();
-    getCountryFlag();
-  }, [])
-
+  const [passCode, setPassCode] = useState(false)
   return (
     <>
       <GlobalStyle />
-      <MainCard countryCapitalData={countryCapitalData} countryFlagData={countryFlagData} error={error} />
+      <Switch>
+        <Route exact path='/' render={() => <Home setPassCode={setPassCode} />} />
+        {passCode && <ProtectedRoute exact path='/quiz' component={Quiz} />}
+        <Route render={() => <Redirect to='/' />} />
+      </Switch>
+      {/* <MainCard /> */}
     </>
   );
 }
